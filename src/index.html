@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Ejemplo básico</title>
+    <meta charset="UTF-8" />
+  </head>
 
-<head>
-	<title>Ejemplo básico</title>
-	<meta charset="UTF-8" />
-</head>
+  <body>
+    <div class="contenedor">
+      <h1>Tareas por Hacer</h1>
+      <br />
+      <!-- <div class="datos"> -->
 
-<body>
-	<h1>La aplicación esta corriendo!</h1>
+      <form action="">
+        <input class="camp" placeholder="Ingresar Tareas" type="text" />
+        <br /><br />
+        <div class="btncontainer">
+          <button class="btnAgregar">Agregar</button>
+          <br /><br />
+        </div>
+        <!-- </div> -->
+        <div class="containerContador">
+          <p class="pcontador">
+            Tareas <br />
+            Completadas
+          </p>
+          <div id="contador">0</div>
+          <br /><br />
+        </div>
+      </form>
 
-	<script src="./index.js" type="module"></script>
-</body>
+      <div class="container">
+        <ul></ul>
+        <div class="vacio">
+          <p class="lala">No hay tareas</p>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://kit.fontawesome.com/f2936d5e48.js"
+      crossorigin="anonymous"
+    ></script>
 
+    <script src="./js/index.js" type="module"></script>
+  </body>
 </html>
