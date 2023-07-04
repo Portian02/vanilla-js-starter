@@ -1,25 +1,25 @@
-
-
-
-
-
+import { post, getList, deleTe } from "./request.js";
 
 // FUNCIÓN BOTÓN AGREGAR
 
-function Add(e) {
+ async function Add(e) {
   e.preventDefault();
+
   let listado = document.querySelector("ul");
   let campo = document.querySelector(".camp");
   let text = campo.value;
   let vacio = document.querySelector(".vacio");
- 
+
   if (text !== "" && text.trim()) {
     const li = document.createElement("li");
     li.className = "tareas";
     const p = document.createElement("p");
     p.textContent = text;
+    post(text);
+
     p.className = "parra";
     listado.appendChild(li);
+    li.id = postedtask.id
     li.appendChild(checkbox());
     li.appendChild(p);
     li.appendChild(Delete());
@@ -59,7 +59,7 @@ function Delete() {
   let listado = document.querySelector("ul");
   let vacio = document.querySelector(".vacio");
   let btndelete = document.createElement("i");
-
+  let contador = document.querySelector("#contador");
   btndelete.className = "fa-sharp fa-solid fa-trash fa-bounce";
 
   btndelete.addEventListener("click", (e) => {
@@ -67,14 +67,15 @@ function Delete() {
     let check = item.querySelector("input");
 
     if (check.checked) {
-      let resta = parseInt(Contador.textContent);
+      let resta = parseInt(contador.textContent);
 
       resta = resta - 1;
-      Contador.textContent = resta;
+      contador.textContent = resta;
     }
 
     listado.removeChild(item);
-
+    deleTe(postedtask.id);
+   
     const items = document.querySelectorAll("li");
     if (items.length === 0) {
       vacio.style.display = "block";
@@ -85,5 +86,6 @@ function Delete() {
 
   return btndelete;
 }
+let tareas = getList();
 //EXPORT FUNCTIONS
-export { Add };
+export { Add, tareas };
