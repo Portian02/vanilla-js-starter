@@ -1,63 +1,75 @@
-import { post, getList, deleTe } from "./request.js";
+import { post, getList, deleTe, upDateTasks } from "./request.js";
+
+////////////////////Variables globales///////////////////////
+
+var contador = document.querySelector("#contador");
+
+////////////////////Variables globales///////////////////////
 
 ///////////////////////////////////////////////// FUNCIÓN BOTÓN AGREGAR//////////////////////////////////////////////////////////////////////////////////
 async function Add(e) {
   let campo = document.querySelector(".camp");
-  let vacio = document.querySelector(".vacio");
-  e.preventDefault();
 
+  e.preventDefault();
   let text = campo.value;
 
-  if (text !== "" && text.trim() ) {
+  if (text !== "" && text.trim()) {
     let tasks = { task: text, checked: false };
     let posted = await post(tasks);
 
-    vacio.style.display = "none";
-    makeTasks(posted.id, posted.task);
-    campo.value = "";
-
-    vacio.style.display = "none";
+    makeTasks(posted.id, posted.task, posted.checked);
   } else {
     window.alert("ingrese texto");
   }
 }
-///////////////////////////////////////////////// FUNCIÓN BOTÓN AGREGAR//////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////FUNCIÓN CREAR TAREAS///////////////////////////////////////////////////////////////////////////////
-function makeTasks(id, texto) {
+function makeTasks(id, texto, checked) {
+  let campo = document.querySelector(".camp");
+  let vacio = document.querySelector(".vacio");
   let listado = document.querySelector("ul");
   const li = document.createElement("li");
   li.className = "tareas";
+  campo.value = "";
   const p = document.createElement("p");
   li.id = id;
   p.textContent = texto;
 
   listado.appendChild(li);
-  li.appendChild(checkbox());
+  li.appendChild(checkbox(checked));
   li.appendChild(p);
   li.appendChild(Delete());
+  vacio.style.display = "none";
 }
-/////////////////////////////////////////////////FUNCIÓN CREAR TAREAS///////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////FUNCTION LOAD TASK//////////////////////////////////////////////////////////////////////////////////
 async function loadTasks() {
   let tareas = await getList();
+  var contadorCarga = 0;
   tareas.forEach((tarea) => {
-    makeTasks(tarea.id, tarea.task);
+    makeTasks(tarea.id, tarea.task, tarea.checked);
   });
+
+  for (let index = 0; index < tareas.length; index++) {
+    if (tareas[index].checked == true) {
+      contadorCarga++;
+    }
+  }
+
+  contador.innerHTML = contadorCarga;
+
 }
-////////////////////////////////////////////////FUNCTION LOAD TASK//////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////// FUNCIÓN DEL CHECKBOX/////////////////////////////////////////////////////////////////////////////////
-function checkbox() {
-  let contador = document.querySelector("#contador");
-
+function checkbox(checked) {
   let check = document.createElement("input");
   check.setAttribute("type", "checkbox");
-  check.checked = false;
+  check.checked = checked;
   check.className = "Checkbox";
 
-  check.addEventListener("click", function () {
+  check.addEventListener("change", async function (e) {
+    let item = e.target.parentElement;
+
     if (check.checked) {
       let cuenta = parseInt(contador.textContent);
       cuenta = cuenta + 1;
@@ -67,11 +79,10 @@ function checkbox() {
       cuenta = cuenta - 1;
       contador.textContent = cuenta;
     }
+    upDateTasks(item.id, { checked: check.checked });
   });
-
   return check;
 }
-////////////////////////////////////////////// FUNCIÓN DEL CHECKBOX/////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////// FUNCTION DELETE/////////////////////////////////////////////////////////////////////////////////
 function Delete() {
@@ -82,7 +93,7 @@ function Delete() {
   btndelete.className = "fa-sharp fa-solid fa-trash fa-bounce";
 
   btndelete.addEventListener("click", (e) => {
-    const item = e.target.parentElement;
+    let item = e.target.parentElement;
     let check = item.querySelector("input");
 
     if (check.checked) {
@@ -105,8 +116,6 @@ function Delete() {
 
   return btndelete;
 }
-////////////////////////////////////////////// FUNCTION DELETE/////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////// EXPORTS FUNCTIONS/////////////////////////////////////////////////////////////////////////////////
 export { Add, loadTasks };
-////////////////////////////////////////////// EXPORTS FUNCTIONS/////////////////////////////////////////////////////////////////////////////////

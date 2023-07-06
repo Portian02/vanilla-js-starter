@@ -1,4 +1,4 @@
-// FUNCTION GET
+//////////////////////////////////////////////////////// FUNCTION GET///////////////////////////////////////////////////////////////////////////////
 async function getList() {
   const response = await fetch("http://localhost:3000/api/task", {
     method: "GET",
@@ -7,7 +7,7 @@ async function getList() {
   return getTask;
 }
 
-// FUNCTION POST
+////////////////////////////////////////////////////////// FUNCTION POST//////////////////////////////////////////////////////////////////////////
 async function post(texto) {
   const response = await fetch("http://localhost:3000/api/task", {
     method: "POST",
@@ -22,7 +22,7 @@ async function post(texto) {
   return postedTask;
 }
 
-// FUNCTION DELETE TASK FROM THE SERVER
+/////////////////////////////////////////////////////FUNCTION DELETE TASK FROM THE SERVER//////////////////////////////////////////////////////////77
 async function deleTe(id) {
   const response = await fetch("http://localhost:3000/api/task/" + id, {
     method: "DELETE",
@@ -31,4 +31,23 @@ async function deleTe(id) {
   return postDeleted;
 }
 
-export { post, getList, deleTe };
+////////////////////////////////////////////////////FUNCTION UPDATETASKS/////////////////////////////////////////////////////////////////////////////
+async function upDateTasks(taks_id, task) {
+  const response = await fetch("http://localhost:3000/api/task/" + taks_id, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task)
+  });
+  const postedTask = await response.json();
+  return postedTask;
+  
+}
+
+async function searchTask(id) {
+  const response = await fetch("http://localhost:3000/api/task/")
+}
+
+export { post, getList, deleTe, upDateTasks };
