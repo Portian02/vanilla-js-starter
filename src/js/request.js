@@ -46,8 +46,8 @@ async function upDateTasks(taks_id, task) {
   
 }
 
-async function searchTask(id) {
-  const response = await fetch("http://localhost:3000/api/task/")
-}
+// async function searchTask(id) {
+//   const response = await fetch("http://localhost:3000/api/task/"+id)
+// }
 
 export { post, getList, deleTe, upDateTasks };

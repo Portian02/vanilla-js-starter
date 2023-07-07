@@ -6,20 +6,70 @@ var contador = document.querySelector("#contador");
 
 ////////////////////Variables globales///////////////////////
 
+
+/////////////////////////////////////////////FUNCIÓN VALIDAR DATOS////////////////////////////////////////////////////////////////////////////////////
+function ValidarDatos(datos) {
+  let listado = document.querySelector("ul");
+  let li = listado.getElementsByTagName("li");
+
+  for (let e = 0; e < li.length; e++) {
+    if (li[e].innerText === datos) {
+      return false;
+    }
+  }
+  return true;
+}
+//////////////////////////////////Funcion Validar Mayusculas///////////////////////////////////////////////////////////////////////////////////////
+function esMayuscula() {
+  let listado = document.querySelector("ul");
+  let campo = document.querySelector(".camp");
+  let datos = campo.value;
+  let elementos = listado.getElementsByTagName("li");
+
+  for (let e = 0; e < elementos.length; e++) {
+    if (elementos[e].textContent.toUpperCase() == datos.toUpperCase()) {
+      return false;
+    }
+  }
+  return true;
+}
 ///////////////////////////////////////////////// FUNCIÓN BOTÓN AGREGAR//////////////////////////////////////////////////////////////////////////////////
 async function Add(e) {
   let campo = document.querySelector(".camp");
 
   e.preventDefault();
   let text = campo.value;
+  if (esMayuscula(text)) {
+    if (ValidarDatos(text)) {
+      if (text !== "" && text.trim()) {
+        let tasks = { task: text, checked: false };
+        let posted = await post(tasks);
 
-  if (text !== "" && text.trim()) {
-    let tasks = { task: text, checked: false };
-    let posted = await post(tasks);
-
-    makeTasks(posted.id, posted.task, posted.checked);
+        makeTasks(posted.id, posted.task, posted.checked);
+      } else {
+        Swal.fire({
+          title: "No hay texto",
+          text: "Por favor ingrese texto",
+          imageUrl:
+            "https://media.tenor.com/0ygiqFaX-ssAAAAM/bongo-cat-typing.gif",
+          imageWidth: 200,
+          imageHeight: 200,
+          imageAlt: "Custom image",
+        });
+      }
+    }
   } else {
-    window.alert("ingrese texto");
+    Swal.fire({
+      title: "Ya existe",
+      text: "Por favor ingresa una nueva",
+      imageUrl:
+        "https://media.tenor.com/Z2huUOjTDoYAAAAM/uncomfortable-awkward.gif",
+      imageWidth: 100,
+      imageHeight: 100,
+      imageAlt: "Custom image",
+    });
+
+    campo.value = "";
   }
 }
 
@@ -57,7 +107,6 @@ async function loadTasks() {
   }
 
   contador.innerHTML = contadorCarga;
-
 }
 
 ////////////////////////////////////////////// FUNCIÓN DEL CHECKBOX/////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +120,14 @@ function checkbox(checked) {
     let item = e.target.parentElement;
 
     if (check.checked) {
+      Swal.fire({
+        title: "Completado",
+        text: "tarea completada",
+        imageUrl: "https://unsplash.it/400/200",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+      });
       let cuenta = parseInt(contador.textContent);
       cuenta = cuenta + 1;
       contador.textContent = cuenta;

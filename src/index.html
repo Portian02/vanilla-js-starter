@@ -3,20 +3,22 @@
   <head>
     <title>To do app</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./Styles/style.css">
   </head>
 
   <body>
     <div class="contenedor">
       <h1>Tareas por Hacer</h1>
-      <br />
+
       <!-- <div class="datos"> -->
 
       <form action="">
+        <div class="conatiner12">
         <input class="camp" placeholder="Ingresar Tareas" type="text" />
-        <br /><br />
-        <div class="btncontainer">
+       <br>
           <button class="btnAgregar">Agregar</button>
-          <br /><br />
+        </div>
+     
         </div>
         <!-- </div> -->
         <div class="containerContador">
@@ -25,7 +27,7 @@
             Completadas
           </p>
           <div id="contador">0</div>
-          <br /><br />
+          
         </div>
       </form>
 
@@ -40,7 +42,7 @@
       src="https://kit.fontawesome.com/f2936d5e48.js"
       crossorigin="anonymous"
     ></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/index.js" type="module"></script>
   </body>
 </html>
